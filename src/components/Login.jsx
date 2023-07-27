@@ -10,10 +10,12 @@ export default function Login() {
 
   const loginSuccess = (userData) => {
     setUserData(userData);
+    localStorage.setItem('token', userData.access_token);
   }
  
   const logoutSuccess = () => {
     setUserData(null);
+    localStorage.removeItem('token');
   }
 
   useEffect(() => {
@@ -24,7 +26,6 @@ export default function Login() {
         }})
       .then(res => res.json())
       .then(json => setDiskData(json))
-      .then(console.log(diskData));
     }
   }, [userData])
  
@@ -40,7 +41,7 @@ export default function Login() {
       }
       {userData &&
         <>
-          <h3>Вы вошли в аккаунт как {diskData.user.display_name}</h3>
+          <h3>Вы вошли в аккаунт как {diskData?.user?.display_name}</h3>
           <YandexLogout onSuccess={logoutSuccess}>
             <button>Yandex Logout</button>
           </YandexLogout>
