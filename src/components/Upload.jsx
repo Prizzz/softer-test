@@ -16,19 +16,20 @@ const Upload = () => {
       alert('Кол-во файлов не должно превышать 100');
     } else {
       const token = localStorage.getItem('token');
-      const formData = new FormData();
+
 
       files.forEach(file => {
-      formData.append("file", file);
+        const formData = new FormData();
+        formData.append("file", file);
 
-      fetch(`https://cloud-api.yandex.net/v1/disk/resources/upload?path=/${file.name}&overwrite=true`, {
-        headers: {
-          "Authorization": `${token}`
-        },
-      })
-        .then(res => res.json())
-        .then(uploadLink => fetch(`${uploadLink.href}`, {method: 'PUT', body: formData}));
-      });
+        fetch(`https://cloud-api.yandex.net/v1/disk/resources/upload?path=/${file.name}&overwrite=true`, {
+          headers: {
+            "Authorization": `${token}`
+          },
+        })
+          .then(res => res.json())
+          .then(uploadLink => fetch(`${uploadLink.href}`, {method: 'PUT', body: formData}));
+        });
     }
     
   };
