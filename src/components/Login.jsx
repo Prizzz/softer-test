@@ -44,7 +44,7 @@ export default function Login({ tokenData, setTokenData }) {
       getDiskData(lsToken);
       setTokenData(lsToken);
     }
-  }, []);
+  }, [tokenData]);
 
   return (
     <div>

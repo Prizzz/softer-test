@@ -30,7 +30,18 @@ const Upload = ({ tokenData }) => {
           }
         )
           .then((res) => res.json())
-          .then((uploadLink) => fetch(`${uploadLink.href}`, { method: "PUT", body: formData }));
+          .then((data) => {
+            if (data.error) {
+              throw new Error(`${data.error} - ${data.message}`);
+            } else {
+              fetch(`${data.href}`, { method: "PUT", body: formData }).catch((err) => {
+                console.log(err.message);
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
       });
     }
   };
