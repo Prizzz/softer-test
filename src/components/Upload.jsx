@@ -34,9 +34,15 @@ const Upload = ({ tokenData }) => {
             if (data.error) {
               throw new Error(`${data.error} - ${data.message}`);
             } else {
-              fetch(`${data.href}`, { method: "PUT", body: formData }).catch((err) => {
-                console.log(err.message);
-              });
+              fetch(`${data.href}`, { method: "PUT", body: formData })
+                .then((res) => {
+                  if (res.ok) {
+                    console.log("Файлы успешно загружены");
+                  }
+                })
+                .catch((err) => {
+                  console.log(err.message);
+                });
             }
           })
           .catch((err) => {
