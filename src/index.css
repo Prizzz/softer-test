@@ -5,9 +5,54 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #444444;
+  color: #fff;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.wrapper {
+  max-width: 90%;
+  margin: auto;
+}
+
+input {
+  display: block;
+  margin: auto;
+}
+
+button:hover {
+  filter: brightness(0.8);
+}
+
+.login-button {
+  padding: 10px 30px;
+  background-color: #ffdb4d;
+  color: #343329;
+  font-weight: 700;
+  border: 0;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.upload-button {
+  display: block;
+  margin: auto;
+  padding: 10px 30px;
+  font-weight: 700;
+  border: 0;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.upload {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+  padding: 30px;
+  border: 1px solid;
+  border-radius: 30px;
+}
+
+.upload-title {
+  text-align: center;
+  font-weight: 700;
 }

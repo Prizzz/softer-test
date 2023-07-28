@@ -52,7 +52,7 @@ export default function Login({ tokenData, setTokenData }) {
         <>
           <h3>Для продолжения войдите в свой Яндекс аккаунт</h3>
           <YandexLogin clientID={clientID} onSuccess={loginSuccess}>
-            <button>Yandex Login</button>
+            <button className="login-button">Yandex Login</button>
           </YandexLogin>
         </>
       )}
@@ -60,7 +60,7 @@ export default function Login({ tokenData, setTokenData }) {
         <>
           <h3>Вы вошли в аккаунт как {userName}</h3>
           <YandexLogout onSuccess={logoutSuccess}>
-            <button>Yandex Logout</button>
+            <button className="login-button">Yandex Logout</button>
           </YandexLogout>
         </>
       )}

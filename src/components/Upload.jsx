@@ -49,27 +49,31 @@ const Upload = ({ tokenData }) => {
   const files = fileList ? [...fileList] : [];
 
   return (
-    <div>
+    <>
       {tokenData && (
-        <>
-          <p>Выберите файлы для загрузки</p>
+        <div className="upload">
+          <div>
+            <p className="upload-title">Выберите файлы для загрузки</p>
 
-          <input type="file" onChange={handleFileChange} multiple />
+            <input type="file" onChange={handleFileChange} multiple />
 
-          <ul>
-            {files.map((file, i) => (
-              <li key={i}>
-                {file.name} - {file.type}
-              </li>
-            ))}
-          </ul>
+            <ul>
+              {files.map((file, i) => (
+                <li key={i}>{file.name}</li>
+              ))}
+            </ul>
 
-          <button onClick={handleUploadClick} disabled={!fileList.length}>
-            Загрузить
-          </button>
-        </>
+            <button
+              className="upload-button"
+              onClick={handleUploadClick}
+              disabled={!fileList.length}
+            >
+              Загрузить
+            </button>
+          </div>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
