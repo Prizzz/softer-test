@@ -1,52 +1,69 @@
-import { useEffect, useState } from 'react'
- 
-import { YandexLogin, YandexLogout } from 'react-yandex-login';
- 
-const clientID = '3be5abd15a4d4712873d49868dfb2174';
- 
-export default function Login() {
-  const [userData, setUserData] = useState(null);
-  const [diskData, setDiskData] = useState(null);
+import { useEffect, useState } from "react";
+
+import { YandexLogin, YandexLogout } from "react-yandex-login";
+
+const clientID = "3be5abd15a4d4712873d49868dfb2174";
+
+export default function Login({ tokenData, setTokenData }) {
+  const [userName, setUserName] = useState("");
 
   const loginSuccess = (userData) => {
-    setUserData(userData);
-    localStorage.setItem('token', userData.access_token);
-  }
- 
+    setTokenData(userData);
+    localStorage.setItem("token", userData.access_token);
+  };
+
   const logoutSuccess = () => {
-    setUserData(null);
-    localStorage.removeItem('token');
+    setTokenData(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+  };
+
+  function getDiskData(token) {
+    fetch(`https://cloud-api.yandex.net/v1/disk/`, {
+      headers: {
+        Authorization: token,
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        setUserName(json.user.display_name);
+        localStorage.setItem("userName", json.user.display_name);
+      });
   }
 
   useEffect(() => {
-    if (userData) {
-      fetch(`https://cloud-api.yandex.net/v1/disk/`, {
-        headers: {
-        "Authorization": `${userData.access_token}`
-        }})
-      .then(res => res.json())
-      .then(json => setDiskData(json))
+    const lsToken = localStorage.getItem("token");
+    const lsUserName = localStorage.getItem("userName");
+
+    if (lsToken && lsUserName) {
+      setTokenData(lsToken);
+      setUserName(lsUserName);
     }
-  }, [userData])
- 
+
+    if (lsToken && !lsUserName) {
+      getDiskData(lsToken);
+      setTokenData(lsToken);
+    }
+  }, []);
+
   return (
     <div>
-      {!userData && 
-      <>
-        <h3>Для продолжения войдите в свой Яндекс аккаунт</h3>
-        <YandexLogin clientID={clientID} onSuccess={loginSuccess}>
-          <button>Yandex Login</button>
-        </YandexLogin>
-      </>
-      }
-      {userData &&
+      {!tokenData && (
         <>
-          <h3>Вы вошли в аккаунт как {diskData?.user?.display_name}</h3>
+          <h3>Для продолжения войдите в свой Яндекс аккаунт</h3>
+          <YandexLogin clientID={clientID} onSuccess={loginSuccess}>
+            <button>Yandex Login</button>
+          </YandexLogin>
+        </>
+      )}
+      {tokenData && (
+        <>
+          <h3>Вы вошли в аккаунт как {userName}</h3>
           <YandexLogout onSuccess={logoutSuccess}>
             <button>Yandex Logout</button>
           </YandexLogout>
         </>
-      }
+      )}
     </div>
   );
 }
